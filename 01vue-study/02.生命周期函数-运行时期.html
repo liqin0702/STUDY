@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+<div id="app">
+  <h3 id="h3"> {{ msg }}</h3>
+  <input type="button" value="修改msg" @click="msg='No'">
+</div>
+
+	<script src="lib/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				msg:'ok'
+			},
+      methods: {
+        show() {
+          console.log('执行了show方法')
+        }
+      },
+      // 运行中的生命周期函数
+      beforeUpdate() { //
+        console.log('界面上元素的内容：'+ document.getElementById('h3').innerText) // 结果为：界面上元素的内容：ok。
+        console.log('data中的msg数据是：'+ this.msg) // 结果为：data中的msg数据是：No
+        //当执行beforeUpdate的时候，页面显示的数据还是旧的，此时data中的对应数据却是最新的，也就是页面尚未渲染成最新数据。
+      },
+      updated() {
+        console.log('界面上元素的内容：'+ document.getElementById('h3').innerText) // 结果为：界面上元素的内容：No。
+        console.log('data中的msg数据是：'+ this.msg) //结果为：data中的msg数据是：No
+         //当执行updated的时候，页面显示的数据重新渲染完毕，进行了更新
+      }
+		})
+	</script>
+</body>
+</html>

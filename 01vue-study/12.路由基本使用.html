@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <style>
+/* 修改激活类名前的用法 */
+/*     .router-link-active {
+  color:red;
+} */
+/* 修改激活类名后的用法 */
+    .myactive {
+      color:red;
+
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 这种方式不常用 -->
+<!--<a href="#/login">登录</a>
+    <a href="#/register">注册</a> -->
+
+    <!-- 推荐使用 -->
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+
+    <router-view></router-view> <!-- 这是vue-router提供的标签，用作占位符，路由规则匹配到的组件，将展示到这里-->
+
+  </div>
+	<script src="lib/vue.js"></script>
+  <script src="lib/vue-router.js"></script>
+	<script>
+
+    var login = {
+      template:'<h1>登录组件</h1>'
+    }
+    var register = {
+      template:'<h1>注册组件</h1>'
+    }
+	  var routerObj = new VueRouter({
+		// 路由匹配规则,每个路由规则都是一个对象，必须有两个属性
+    // 属性1是path,表示监听哪个路由地址
+    // 属性2是component,它的值必须是一个模板对象的名称，而不是一个组件的名称
+		  routes:[
+        {path:'/', redirect:'/login'}, //强制重定向到login界面
+        {path:'/login', component:login},
+        {path:'/register', component:register},
+		  ],
+      linkActiveClass: 'myactive' //将默认激活类名 class="router-link-active"改为类名class="myactive"
+    })
+    var vm =new Vue({
+      el: '#app',
+		  data: {
+        msg: 'ok'
+      },
+      router: routerObj //将路由规则对象，注册到vm实例上
+    });
+  </script>
+</body>
+</html>

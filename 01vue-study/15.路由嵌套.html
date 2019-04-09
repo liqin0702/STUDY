@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <style>
+    #div{
+      border: 1px solid red;
+      width: 200px;
+      height: auto
+    }
+
+    h3{
+      border: 1px solid blue;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <router-link to="/account">account</router-link>
+    <router-view></router-view>
+  </div>
+
+  <template id="tmp1">
+    <div id="div">
+      <h1>account账户</h1>
+      <router-link to="/account/login">登录</router-link>
+      <router-link to="/account/register">注册</router-link>
+      <router-view></router-view>
+    </div>
+  </template>
+
+	<script src="lib/vue.js"></script>
+  <script src="lib/vue-router.js"></script>
+	<script>
+    var account = {
+      template: '#tmp1'
+    }
+    var login = {
+      template: '<h3>登录组件</h3>'
+    }
+    var register = {
+      template: '<h3>注册组件</h3>'
+    }
+
+    var routerObj = new VueRouter({
+      routes: [
+        {
+          path:'/account',
+          component:account,
+          children:[
+            {path:'login', component:login}, // 这里不需要给login加斜杠,加了斜杠的话就链接到了根地址
+            {path:'register', component:register}, // 这里不需要加斜杠
+          ]
+        }
+      ]
+    })
+
+    var vm =new Vue({
+      el: '#app',
+      router: routerObj //将路由规则对象，注册到vm实例上
+    });
+  </script>
+</body>
+</html>

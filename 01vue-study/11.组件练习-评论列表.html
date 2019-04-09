@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    body {
+      font-size: 14px;
+      color: #333;
+    }
+    ul {
+      width: 100%;
+    }
+
+    li {
+      border: 1px solid #ddd;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      /*position: relative;*/
+    }
+
+    li:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    }
+
+
+    li:last-child {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    }
+
+    li span {
+      display: inline-block;
+      min-width: 10px;
+      padding: 3px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      background-color: #777;
+      border-radius: 10px;
+      float: right;
+    }
+
+    #input, #textarea {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+    }
+
+    #input {
+      width: 100%;
+      height: 30px;
+    }
+
+    #textarea {
+      width: 100%;
+      /*height:;*/
+    }
+
+    #btn {
+      padding:5px 10px;
+      margin-bottom: 10px;
+      background-color: #337ab7;
+      color: #fff;
+      border-color: #2e6da4
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <com1 @func="loadComments"></com1>
+
+    <ul>
+      <li id="commentMsg" v-for="item in list" :key=item.id>{{item.content}}
+        <span id="commenter">评论人：{{item.name}}</span>
+      </li>
+    </ul>
+  </div>
+
+<template id="tem1">
+  <div>
+    <label>评论人：<br>
+      <input id="input" type="text" v-model="name" ><br>
+    </label>
+    <label>评论内容：<br>
+      <textarea  id="textarea" cols="30" rows="10" v-model="content"></textarea><br>
+    </label>
+    <button id="btn" @click="postcomment">发表评论</button>
+  </div>
+</template>
+
+  <script src="lib/vue.js"></script>
+  <script>
+  var tem1 = {
+    template: '#tem1',
+    data() {
+      return {
+        name:'',
+        content: ''
+      }
+    },
+      methods: {
+        postcomment() {
+          var comment = {id:Date.now(), name:this.name, content:this.content}
+          var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+          list.unshift(comment)
+          localStorage.setItem('cmts', JSON.stringify(list))
+          this.name = this.content = ''
+          this.$emit('func')
+        }
+      }
+
+  }
+    new Vue({
+      el: '#app',
+      data: {
+        list: [
+          {id:1, name:'张三', content:'你好吗1'},
+          {id:2, name:'李四', content:'你好吗2'},
+          {id:3, name:'王五', content:'你好吗3'},
+        ]
+      },
+      created(){
+        this.loadComments()
+      },
+      methods: {
+        loadComments() {
+          var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+          this.list = list
+        }
+      },
+      components: {
+        'com1': tem1
+      }
+    })
+  </script>
+</body>
+</html>

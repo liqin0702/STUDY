@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <style>
+    #box{
+      background-color: orange;
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <input type="button" value="点我" @click="flag=!flag">
+    <transition appear
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @after-enter="afterEnter">
+      <div id="box" v-show="flag"></div>
+    </transition>
+  </div>
+	<script src="lib/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        flag: false
+      },
+      methods: {
+        // 表示动画前，可在里面设置动画前的起始样式
+        beforeEnter(el) {
+          el.style.transform = 'translate(0, 0)'
+        },
+        // 表示动画后，可以在里面设置动画结束后的样式
+        enter(el, done) {
+          el.offsetWidth // 必须要加上这一句，否则动画没有效果，可以强制动画刷新
+          el.style.transform = 'translate(150px, 450px)'
+          el.style.transition = 'all 5s ease'
+          done() //这里就是afterEnter函数的引用，写在这里，代表同步执行，这样小球消失时就不会出现停顿的现象了
+        },
+        afterEnter(el) {
+          console.log('ok')
+          this.flag = !this.flag // 不加这一句，小球就不会自动消失
+        }
+      }
+  })
+  </script>
+</body>
+</html>

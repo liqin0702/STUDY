@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+  <div id="app">
+    <!-- 子组件通过属性绑定的方式拿到父组件中的msg -->
+    <com1 :msgchild="msg"></com1>
+  </div>
+	<script src="lib/vue.js"></script>
+  <script>
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '我是来自父组件中的数据'
+      },
+      components: {
+        com1: {
+          // 事实证明，子组件不能直接用父组件中的msg。必须通过属性绑定的方式，拿到父组件中的数据
+          // template: '<h1>这是子组件---{{ msg }}</h1>'
+          props: ['msgchild'],
+          template: '<h1>这是子组件---{{ msgchild }}</h1>'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

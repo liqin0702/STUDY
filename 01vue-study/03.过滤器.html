@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+  <div id='app'>
+    <!-- <p>{{ msg | msgFilter }}</p> -->
+    <p>情况1：{{msg | msgFilter1 }}</p>
+    <p>情况2：{{msg | msgFilter2 }}</p>
+    <p>情况3：{{msg | msgFilter3 }}</p>
+    <p>情况4：{{msg | msgFilter4('舒适') }}</p>
+    <p>情况5：{{msg | msgFilter5('舒适','爽快') }}</p>
+    <p>情况6：{{msg | msgFilter5('舒适','爽快') | test }}</p>
+  </div>
+  <br>
+  <div id="app1">
+    <p>情况7：{{ msg1 | msg1Filter }}</p>
+    <p>情况8：{{ msg1 | msg1Filter1 }}</p>
+  </div>
+
+<script src="lib/vue.js"></script>
+<script>
+  <!-- 全局过滤器 -->
+  <!-- 情况1：啥也不干，返回原来的数据 -->
+  Vue.filter('msgFilter1', function (msg) {
+    return msg
+  })
+  <!-- 情况2：不使用正则，只替换第一个美好 -->
+  Vue.filter('msgFilter2', function (msg) {
+    return msg.replace('美好', '惬意')
+  })
+  <!-- 情况3：使用正则，全替换 -->
+  Vue.filter('msgFilter3', function (msg) {
+    return msg.replace(/美好/g, '惬意')
+  })
+  <!-- 情况4：从html标签里面传一个参 -->
+  Vue.filter('msgFilter4', function (msg, arg) {
+    return msg.replace(/美好/g, arg)
+  })
+  <!-- 情况5：从html标签里面传多个参 -->
+  Vue.filter('msgFilter5', function (msg, arg, arg1) {
+    return msg.replace(/美好/g, arg+arg1)
+  })
+  <!-- 情况6：多个过滤器 -->
+  Vue.filter('msgFilter5', function (msg, arg, arg1) {
+    return msg.replace(/美好/g, arg+arg1)
+  })
+  Vue.filter('test', function (msg) {
+    return msg+'good!'
+  })
+
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			msg: '真是一个美好的周末，真的很美好很美好！'
+		}
+	})
+
+  var vm1=new Vue({
+    el:'#app1',
+    data: {
+      msg1: '真是一个美好的假期，真的很美好很美好！'
+    },
+    filters: {
+      msg1Filter: function (msg1) {
+        return msg1
+      },
+      msg1Filter1: function (msg1) {
+        return msg1.replace(/美好/g, '疯狂')
+      }
+    }
+  })
+
+</script>
+</body>
+</html>

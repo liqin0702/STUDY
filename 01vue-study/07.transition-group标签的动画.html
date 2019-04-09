@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+  <style>
+    li {
+      border: 1px dashed #000;
+      margin-top:10px;
+      line-height: 30px;
+      width: 100px;
+    }
+    li:hover {
+      background-color: hotpink;
+      transition:all 1s ease;
+    }
+    .v-move{
+      transition: all 1s ease;
+    }
+    .v-leave-active { /*不设置这个语句，v-move没用*/
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <label>
+      id: <input type="text" v-model="newId">
+      name: <input type="text" v-model="newName">
+      <button @click="add">添加</button>
+    </label>
+
+      <ul>
+        <transition-group appear
+          @before-enter="beforeEnter"
+          @enter="enter"
+          @after-enter="afterEnter"
+          @before-leave="beforeLeave"
+          @leave="leave"
+          @after-leave="afterLeave">
+            <li v-for="(item, i) in list" :key="item.id" @click="del(i)">
+              {{ item.id }}------{{item.name}}
+            </li>
+        </transition-group>
+      </ul>
+
+  </div>
+  <script src="lib/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        newId:'',
+        newName:'',
+        list: [
+          {id:1, name:'张三'},
+          {id:2, name:'李四'},
+          {id:3, name:'王五'}
+        ]
+      },
+      methods: {
+        add() {
+          this.list.push({id:this.newId, name:this.newName})
+          this.newId=''
+          this.newName=''
+        },
+        beforeEnter(el) {
+          el.style.transform = 'translateY(80px)'
+        },
+        enter(el) {
+          el.offsetWidth
+          el.style.transform = 'translateY(0)'
+          el.style.transition = 'all 0.7s ease'
+        },
+        afterEnter(el) {
+          console.log('ok')
+        },
+        beforeLeave(el) {
+          el.style.transform = 'translateY(0)'
+          console.log('1')
+        },
+        leave(el) {
+          el.offsetWidth
+          el.style.transform = 'translateY(80px)'
+          el.style.transition = 'all 2s ease'
+        },
+        afterLeave(el) {
+          console.log('yes')
+        },
+        del(i) {
+          this.list.splice(i,1)
+        }
+      }
+  })
+  </script>
+</body>
+</html>

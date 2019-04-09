@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+  <div id="app">
+  <!-- part 1 -->
+  <!-- 之前是父组件通过props向子组件传值，现在是子组件通过emit改变父组件的值 -->
+    <com1 @count1="allcount1 += 1"></com1>{{allcount1}}
+  <br>
+
+  <!-- part 2 -->
+  <!-- 子组件通过emit调用父组件的方法 -->
+   <com2 @count2="allCount2"></com2>{{allcount2}}
+  <br>
+
+  <!-- part 3 -->
+  <!-- 子组件通过emit调用父组件的方法,并传参 -->
+   <com3 @count3="allCount3(10)"></com3>{{allcount3}}
+  <br>
+  <!-- part 4 -->
+  <!-- 子组件通过emit调用父组件的方法,并通过另外一种方式传参，即在emit中传参 -->
+   <com4 @count4="allCount4"></com4>{{allcount4}}
+  </div>
+
+
+
+  <!-- part 1's tempalate -->
+  <template id="tem1">
+    <button  @click=$emit("count1")>+1</button>
+  </template>
+
+  <!-- part 2's template -->
+  <template id="tem2">
+    <button @click=$emit("count2")>+2</button>
+  </template>
+
+  <!-- part 3's template -->
+  <template id="tem3">
+    <button @click=$emit("count3")>+num</button>
+  </template>
+
+  <!-- part 4's template -->
+   <template id="tem4">
+    <button @click=$emit("count4",10)>+NUM</button> <!-- 在emit中传参-->
+  </template>
+
+	<script src="lib/vue.js"></script>
+  <script>
+  Vue.component('com1', {
+    template: '#tem1'
+  })
+  Vue.component('com2', {
+    template: '#tem2'
+  })
+   Vue.component('com3', {
+    template: '#tem3'
+  })
+    Vue.component('com4', {
+    template: '#tem4'
+  })
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        allcount1: 0,
+        allcount2: 0,
+        allcount3: 0,
+        allcount4: 0
+      },
+      methods: {
+        allCount2() {
+          this.allcount2 += 2
+        },
+        allCount3(num) {
+          this.allcount3 += num
+        },
+        allCount4(num) {
+          this.allcount4 += num
+        },
+      }
+    });
+  </script>
+</body>
+</html>

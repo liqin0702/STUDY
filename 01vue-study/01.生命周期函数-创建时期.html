@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+<div id="app">
+  <h3 id="h3"> {{ msg }}</h3>
+</div>
+
+	<script src="lib/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				msg:'ok'
+			},
+      methods: {
+        show() {
+          console.log('执行了show方法')
+        }
+      },
+      beforeCreate() { // 这是第一个生命周期函数，表示实例完全创建出来之前，会执行它
+        // 这时候还不能使用data和methods中的数据，因为他们还没有初始化
+      },
+      created() { // 这是第二个生命周期函数
+        // 这是data和methods已经初始化好了
+        console.log(this.msg)
+        this.show()
+      },
+      beforeMount() { // 这是第三个生命周期函数，表示模板已经在内存中编译完成了，但是尚未渲染/挂载到页面中
+        console.log(document.getElementById('h3').innerText) // 显示结果为 {{ msg }}，还未进行渲染
+      },
+      mounted() { // 这是第四个生命周期函数，此时内存中的模板已经真实挂载到了页面中，用户可以看到渲染好的页面了
+        console.log(document.getElementById('h3').innerText) //显示结果为ok,已经进行了渲染
+      }
+
+		});
+	</script>
+</body>
+</html>

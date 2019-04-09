@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+  <div id="app">
+    <!-- 子组件通过属性绑定的方式拿到父组件中的msg -->
+    我是父组件<input type="text" v-model="msg">
+    <com1 :msgchild="msg"></com1>
+
+  </div>
+	<script src="lib/vue.js"></script>
+  <script>
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 10
+      },
+      components: {
+        com1: {
+          // 事实证明，父组件可以通过props向子组件传值，但是子组件如果不用其他方法，不能向父组件传值
+          props: ['msgchild'],
+          template: '<div>我是子组件<input type="text" v-model="msgchild"></div>'
+        }
+      }
+    })
+  </script>
+</body>
+</html>
