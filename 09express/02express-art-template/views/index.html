@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <!-- 当浏览器收到Html响应内容后，从上到下依次解析，当解析发现，代码中有link,script,img,iframe,video,audio等具有src,link,herf属性且自动执行的标签时（不包括a标签，因为a标签必须要点击，而不是自动），浏览器会自动对这些资源发送新的请求。这些资源通常是外链资源 -->
+  <!-- 注意:在服务端中，文件的路径就不要去写相对路径了。因为这个时候所有的资源都是通过url标识来获取的，我的服务器开放了/public目录，所以这里的请求路径写成/pubulic,而不是../public, /在这里就是url根路径的意思，浏览器在真正发送请求的时候会把http://127.0.0.1:3000拼上-->
+  <!-- 不要再想文件路径了，把所有的路径都想象成url地址 -->
+  <link rel="stylesheet" href="/public/lib/bootstrap/dist/css/bootstrap.css">
+
+</head>
+<body>
+  <div class="header container">
+    <div class="page-header">
+      <h1>Example page header <small>Subtext for header</small></h1>
+      <a href="/post" class="btn btn-success">发表留言</a>
+    </div>
+  </div>
+  <div class="comments container">
+    <ul class="list-group">
+    {{each comments}}
+      <l1 class="list-group-item">{{ $value.name }}说：{{ $value.msg }} <span style="float: right;">{{ $value.time }}</span></l1>
+    {{/each}}
+    </ul>
+  </div>
+</body>
+</html>
