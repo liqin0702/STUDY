@@ -1091,7 +1091,7 @@ app.engine('html', require('express-art-template'))
 
 
 
-![123](/home/liqin/sublimeProjects/123.png)
+
 
 
 
