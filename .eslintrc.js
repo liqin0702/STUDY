@@ -24,3 +24,4 @@ module.exports = {
     "no-constant-condition": [1, { "checkLoops": false }] // 是否可以使用常量表达值作为测试条件，默认是警告，另一个参数的意思是当用于循环中时，不报警告
   },
 };
+
