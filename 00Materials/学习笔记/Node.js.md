@@ -1155,7 +1155,16 @@ app.listen(3000, () => {
 })
 ```
 
+#### 6-4-1.crud-路由设计
 
+| 请求方法 |    请求路径     | get参数 |        post参数         |       备注       |
+| :------: | :-------------: | :-----: | :---------------------: | :--------------: |
+|   get    |    /student     |         |                         |     渲染首页     |
+|   get    |  /student/new   |         |                         | 渲染添加学生页面 |
+|   post   |  /student/new   |         | name,age,gender,hobbies | 处理添加学生请求 |
+|   get    |  /student/edit  |   id    |                         |   渲染编辑页面   |
+|   post   |  /student/edi   |         | id,name,gender,hobbies  |   处理编辑请求   |
+|   get    | /student/delete |   id    |                         |   处理删除请求   |
 
 
 
