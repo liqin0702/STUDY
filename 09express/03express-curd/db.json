@@ -2,7 +2,7 @@
   "student": [
     {"id": 1, "name": "zs", "gender": 1, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
     {"id": 2, "name": "zs", "gender": 1, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
-    {"id": 3, "name": "zs", "gender": 0, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
+    {"id": 3, "name": "zs", "gender": 1, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
     {"id": 4, "name": "zs", "gender": 0, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
     {"id": 5, "name": "zs", "gender": 0, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"},
     {"id": 6, "name": "zs", "gender": 0, "age": 18, "hobbies": "吃饭、睡觉、打豆豆"}

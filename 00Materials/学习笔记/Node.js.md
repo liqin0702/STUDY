@@ -1165,3 +1165,182 @@ app.listen(3000, () => {
 |   get    |  /student/edit  |   id    |                         |   渲染编辑页面   |
 |   post   |  /student/edi   |         | id,name,gender,hobbies  |   处理编辑请求   |
 |   get    | /student/delete |   id    |                         |   处理删除请求   |
+
+
+
+#### 6-4-2.express抽离路由模块
+
+建立一个router.js，作为路由模块，尔后有两种方法加载这个模块：  
+
+**方法1：**
+
+- 在router.js中用`module.exports = (app) => {}`包裹请求，如：
+
+  ```javascript
+  module.exports = (app) => {
+    app.get('', (req, res) => {
+      // 使用utf8后，不需要再将data转换为字符串了
+      fs.readFile('./db.json', 'utf8', (erro, data) => {
+        if (erro) {
+          return res.status(500).send('sever erro')
+        }
+        const { student } = JSON.parse(data)// 由于data是string类型，所以先要转化为json类型。这里使用了对象解构
+        res.render('index.html', { // 渲染模板
+          fruits: ['苹果1', '香蕉', '梨子', '橘子'],
+          students: student,
+        })
+        return true // 箭头函数规定最后一行必须要有个return
+      })
+    })
+  }
+  ```
+
+- 在app.js路口文件中，导入这个router.js：
+
+  ```javascript
+  const router = require('./router.js')
+  ```
+
+- 尔后再使用`router(app)`,相当于调用函数
+
+  
+
+**方法2：**
+
+- 不用在router.js中用module.exports包裹函数，而是导入：
+
+  ```javascript
+  const express = require('express')
+  const router = express.Router()
+  ```
+
+- 尔后写请求代码,并用module.exports导出，注意这里要用router替换原来的app：
+
+  ```javascript
+  router.get('', (req, res) => {
+    // 使用utf8后，不需要再将data转换为字符串了
+    fs.readFile('./db.json', 'utf8', (erro, data) => {
+      if (erro) {
+        return res.status(500).send('sever erro')
+      }
+      const { student } = JSON.parse(data)// 由于data是string类型，所以先要转化为json类型。这里使用了对象解构
+      res.render('index.html', { // 渲染模板
+        fruits: ['苹果1', '香蕉', '梨子', '橘子'],
+        students: student,
+      })
+      return true // 箭头函数规定最后一行必须要有个return
+    })
+  })
+  module.exports = router
+  ```
+
+- 在app.js中先导入router.js文件：
+
+  ```javascript
+  const router = require('./router.js')
+  ```
+
+- 尔后再调用：
+
+  ```javascript
+  app.use(router)
+  ```
+
+
+
+**完整代码：**
+
+```javascript
+/**
+  * app.js入口模块
+  * 职责：
+  *   创建服务
+  *   做一些服务相关配置
+  *     模板引擎
+  *     body-parser解析表单post请求体
+  *     提供静态资源服务
+  *   挂载路由
+  *   监听端口启动服务
+  */
+const express = require('express')
+const router = require('./router.js')
+
+const app = express()
+
+// 将node_modules和public两个文件夹内的资源都开放出来
+app.use('/node_modules/', express.static('./node_modules/'))
+app.use('/public/', express.static('./public/'))
+
+app.engine('html', require('express-art-template'))
+
+// 方法1：不使用express的路由方法时
+// router(app)
+
+// 方法2：使用express的路由方法时
+app.use(router)
+
+app.listen(3000, () => {
+  console.log('running')
+})
+
+
+```
+
+```javascript
+/**
+  * router.js路由模块
+  * 职责：
+  *   处理路由
+  *   根据不同请求方法+请求路径设置具体的请求处理函数
+  *  模块职责单一，不要乱写
+  *  我们划分模块的目的就是增强代码的可维护性
+  *  提升开发效率
+  */
+const fs = require('fs')
+
+// 方法1：不使用express的路由方法时
+// module.exports = (app) => {
+//   app.get('', (req, res) => {
+//     // 使用utf8后，不需要再将data转换为字符串了
+//     fs.readFile('./db.json', 'utf8', (erro, data) => {
+//       if (erro) {
+//         return res.status(500).send('sever erro')
+//       }
+//       const { student } = JSON.parse(data)// 由于data是string类型，所以先要转化为json类型。这里使用了对象解构
+//       res.render('index.html', { // 渲染模板
+//         fruits: ['苹果1', '香蕉', '梨子', '橘子'],
+//         students: student,
+//       })
+//       return true // 箭头函数规定最后一行必须要有个return
+//     })
+//   })
+// }
+
+// 方法2：使用express的路由方法时
+// 此时，不需要使用module.exports的函数方法
+const express = require('express')
+
+const router = express.Router()
+
+router.get('', (req, res) => {
+  // 使用utf8后，不需要再将data转换为字符串了
+  fs.readFile('./db.json', 'utf8', (erro, data) => {
+    if (erro) {
+      return res.status(500).send('sever erro')
+    }
+    const { student } = JSON.parse(data)// 由于data是string类型，所以先要转化为json类型。这里使用了对象解构
+    res.render('index.html', { // 渲染模板
+      fruits: ['苹果1', '香蕉', '梨子', '橘子'],
+      students: student,
+    })
+    return true // 箭头函数规定最后一行必须要有个return
+  })
+})
+module.exports = router
+
+```
+
+
+
+
+

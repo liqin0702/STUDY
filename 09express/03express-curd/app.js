@@ -1,5 +1,16 @@
+/**
+  * app.js入口模块
+  * 职责：
+  *   创建服务
+  *   做一些服务相关配置
+  *     模板引擎
+  *     body-parser解析表单post请求体
+  *     提供静态资源服务
+  *   挂载路由
+  *   监听端口启动服务
+  */
 const express = require('express')
-const fs = require('fs')
+const router = require('./router.js')
 
 const app = express()
 
@@ -9,20 +20,12 @@ app.use('/public/', express.static('./public/'))
 
 app.engine('html', require('express-art-template'))
 
-app.get('', (req, res) => {
-  // 使用utf8后，不需要再将data转换为字符串了
-  fs.readFile('./db.json', 'utf8', (erro, data) => {
-    if (erro) {
-      return res.status(500).send('sever erro')
-    }
-    const { student } = JSON.parse(data)// 由于data是string类型，所以先要转化为json类型。这里使用了对象解构
-    res.render('index.html', { // 渲染模板
-      fruits: ['苹果1', '香蕉', '梨子', '橘子'],
-      students: student,
-    })
-    return true // 箭头函数规定最后一行必须要有个return
-  })
-})
+// 方法1：不使用express的路由方法时
+// router(app)
+
+// 方法2：使用express的路由方法时
+app.use(router)
+
 app.listen(3000, () => {
   console.log('running')
 })
