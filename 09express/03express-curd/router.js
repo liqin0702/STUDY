@@ -33,7 +33,7 @@ const express = require('express')
 
 const router = express.Router()
 
-router.get('', (req, res) => {
+router.get('/student', (req, res) => {
   // 使用utf8后，不需要再将data转换为字符串了
   fs.readFile('./db.json', 'utf8', (erro, data) => {
     if (erro) {
@@ -46,5 +46,25 @@ router.get('', (req, res) => {
     })
     return true // 箭头函数规定最后一行必须要有个return
   })
+})
+
+router.get('/student/new', (req, res) => {
+  res.render('new.html')
+})
+
+router.post('/student/new', (req, res) => {
+
+})
+
+router.get('/student/edit', (req, res) => {
+
+})
+
+router.post('/student/edit', (req, res) => {
+
+})
+
+router.get('/student/delete', (req, res) => {
+
 })
 module.exports = router
