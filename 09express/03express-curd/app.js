@@ -10,7 +10,9 @@
   *   监听端口启动服务
   */
 const express = require('express')
+const bodyParser = require('body-parser')
 const router = require('./router.js')
+
 
 const app = express()
 
@@ -19,6 +21,13 @@ app.use('/node_modules/', express.static('./node_modules/'))
 app.use('/public/', express.static('./public/'))
 
 app.engine('html', require('express-art-template'))
+
+// 配置post方法的第三方包：body-parser
+// 该配置一定要在app.use(router)之前
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
 // 方法1：不使用express的路由方法时
 // router(app)

@@ -53,6 +53,12 @@ router.get('/student/new', (req, res) => {
 })
 
 router.post('/student/new', (req, res) => {
+  // 1.获取表单数据
+  // 在app.js中配置body-parser
+  console.log(req.body)
+
+  // 2.处理数据，即持久化到db.json当中
+  // 步骤：先把db.json文件读取出来
 
 })
 
