@@ -1,9 +1,11 @@
-//封装技巧
+// 封装技巧
 
-var fs = require('fs')
-var path = require('path')
+const fs = require('fs')
+const path = require('path')
 
-/*要想获得文件的内容，用一下方法不行，因为fs.readFile是异步方法，当调用getFile时，将fs.readFile交给子程序处理，而主程序跳过这一段寻找return,但是找不到，所以默认返回undefined*/
+/* 要想获得文件的内容，用以下方法不行
+因为fs.readFile是异步方法，当调用getFile时,将fs.readFile交给子程序处理,
+而主程序跳过这一段寻找return,但是找不到，所以默认返回undefined */
 // function getFile (fpath) {
 //   fs.readFile(fpath, 'utf-8',  (erro, data) => {
 //     if (erro) throw erro
@@ -15,7 +17,7 @@ var path = require('path')
 // console.log(res)
 
 
-/*解决方法1：设置一个回调函数参数,当子程序执行最后，调用这个回调函数*/
+/* 解决方法1：设置一个回调函数参数,当子程序执行最后，调用这个回调函数 */
 // function getFile (fpath, callback) {
 //   fs.readFile(fpath, 'utf-8', (erro, data) => {
 //     if (erro) throw erro
@@ -26,9 +28,9 @@ var path = require('path')
 // var res = getFile('./1.txt',(dataStr) => {
 //   console.log(dataStr)
 // })
+// 上面这种方法封装的不好，因为如果出错的话，系统抛出异常，会阻断程序，所以应该把erro也进行一下封装
 
-// 这种方法封装的不好，因为如果出错的话，系统抛出异常，会阻断程序，所以应该把erro也进行一下封装
-/*解决方法2：需要给callpack传入两个参数，第一个参数为失败的结果，第二个参数为成功的结果
+/* 解决方法2：需要给callpack传入两个参数，第一个参数为失败的结果，第二个参数为成功的结果
            当失败时，第一个参数为erro对象，第二个为undefined
            当成功时，第一个参数为null,第二个为data对象
 */
@@ -45,7 +47,7 @@ var path = require('path')
 //   console.log(dataStr)
 // })
 
-/*解决方法3：将callback拆分为两个回调函数*/
+/* 解决方法3：将callback拆分为两个回调函数 */
 // function getFile (fpath, sucCb, erroCb) {
 //   fs.readFile(fpath, 'utf-8', (erro, data) => {
 //     if (erro) return erroCb(erro)

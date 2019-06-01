@@ -30,11 +30,12 @@ const fs = require('fs')
 // 方法2：使用express的路由方法时
 // 此时，不需要使用module.exports的函数方法
 const express = require('express')
+const Student = require('./student.js') // 加载student模块,这里面封装了一些操作
 
 const router = express.Router()
 
 router.get('/student', (req, res) => {
-  // 使用utf8后，不需要再将data转换为字符串了
+/*  // 使用utf8后，不需要再将data转换为字符串了
   fs.readFile('./db.json', 'utf8', (erro, data) => {
     if (erro) {
       return res.status(500).send('sever erro')
@@ -45,6 +46,17 @@ router.get('/student', (req, res) => {
       students: student,
     })
     return true // 箭头函数规定最后一行必须要有个return
+  })
+  */
+
+  // 以上方法是使用封装前的方法，现在使用封装后的方法
+  Student.find((erro, student) => {
+    if (erro) return res.status(500).send('sever erro')
+    res.render('index.html', { // 渲染模板
+      fruits: ['苹果1', '香蕉', '梨子', '橘子'],
+      students: student,
+    })
+    return true
   })
 })
 
@@ -58,8 +70,12 @@ router.post('/student/new', (req, res) => {
   console.log(req.body)
 
   // 2.处理数据，即持久化到db.json当中
-  // 步骤：先把db.json文件读取出来
-
+  // 步骤：先把db.json文件读取出来->转成对象->往对象中push->转成字符串->把字符串再次写入文件
+  Student.save(req.body, (erro) => {
+    if (erro) return res.status(500).send('sever erro')
+    res.redirect('/student')
+    return true
+  })
 })
 
 router.get('/student/edit', (req, res) => {

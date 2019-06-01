@@ -912,7 +912,7 @@ app.get('/', function (req, res) {
   // res.render('404.art')
 
   //但是这里存在一个问题，就是必须把404的后缀名由html改为art，那么404.art文件可能就无法高亮
-  //解决办法：就是把app.engine写成app.engine('art', require('express-art-template'))
+  //解决办法：就是把app.engine写成app.engine('html', require('express-art-template'))
   res.render('404.html')
 })
 
@@ -1338,6 +1338,38 @@ router.get('', (req, res) => {
 })
 module.exports = router
 
+```
+
+
+
+#### 6-4-3.设计操作数据的API文件模块
+
+```javascript
+// student.js
+// 数据操作处理模块
+// 只处理数据，不关心业务
+
+
+// 获取所有学生列表
+exports.find = () => {
+
+}
+
+
+// 保存学生数据
+exports.save = () => {
+
+}
+
+// 更新学生数据
+exports.update = () => {
+
+}
+
+// 删除学生
+exports.delete = () => {
+
+}
 ```
 
 
