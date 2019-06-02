@@ -78,14 +78,27 @@ router.post('/student/new', (req, res) => {
   })
 })
 
+// 渲染编辑学生页面
 router.get('/student/edit', (req, res) => {
-
+  // 1.在客户端的列表页中处理链接问题（需要有id参数）
+  // 2.获取要编辑的学生id
+  // 3.渲染编辑页面
+  Student.findById(parseInt(req.query.id, 10), (erro, student) => {
+    if (erro) return res.status(500).send('sever erro')
+    console.log(student)
+    res.render('edit.html', {
+      students: student,
+    })
+    return true
+  })
 })
 
+// 处理编辑学生
 router.post('/student/edit', (req, res) => {
 
 })
 
+// 处理删除学生
 router.get('/student/delete', (req, res) => {
 
 })

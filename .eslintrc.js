@@ -23,6 +23,7 @@ module.exports = {
     "no-unused-vars": 1, //当出现没有使用过的变量时，警告
     "no-constant-condition": [1, { "checkLoops": false }], // 是否可以使用常量表达值作为测试条件，默认是警告，另一个参数的意思是当用于循环中时，不报警告
     "no-param-reassign": 1, // 如果对function的参数进行了重新赋值，则警告
+    "guard-for-in": 0, // 取消for-in语句中必须有if语句
   },
 }
 
