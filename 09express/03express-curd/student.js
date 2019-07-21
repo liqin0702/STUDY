@@ -25,9 +25,7 @@ exports.findById = (id, callback) => {
     // es6中的一个数组方法：find
     // 当某个遍历项符合item.id === student.id的时候，find会终止遍历，同时返回遍历项
     // 这个返回的遍历项stu就是students中的一部分,改变stu，student会跟着改变
-    const stu = students.find((item) => {
-      return item.id === id
-    })
+    const stu = students.find(item => item.id === id)
     callback(null, stu)
     return true // 箭头函数的最后要有个return
   })
@@ -66,9 +64,7 @@ exports.updateById = (message, callback) => {
     // es6中的一个数组方法：find
     // 当某个遍历项符合item.id === student.id的时候，find会终止遍历，同时返回遍历项
     // 这个返回的遍历项stu就是students中的一部分,改变stu，student会跟着改变
-    const stu = students.find((item) => {
-      return item.id === message.id
-    })
+    const stu = students.find(item => item.id === message.id)
     // 遍历拷贝对象 方式1：
     // for (const key in message) {
     //   stu[key] = message[key]
